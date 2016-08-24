@@ -1,0 +1,6 @@
+fixinfo.patch
+kfreebsd.patch
+hurd3.patch
+hurd4.patch
+hurd5.patch
+sys_errlist.patch

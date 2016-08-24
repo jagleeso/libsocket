@@ -1,0 +1,18 @@
+Description: Fix compilation issue on kFreeBSD and HURD
+Author: Mathieu Malaterre <malat@debian.org>
+Forwarded: no
+
+Index: socket++-1.12.13/socket++/ftp.h
+===================================================================
+--- socket++-1.12.13.orig/socket++/ftp.h	2013-12-31 08:36:53.000000000 +0100
++++ socket++-1.12.13/socket++/ftp.h	2013-12-31 08:38:09.338459766 +0100
+@@ -14,6 +14,9 @@
+ #include <socket++/protocol.h>
+ #ifndef WIN32
+ #	include <sys/param.h>
++#ifndef MAXPATHLEN
++#define MAXPATHLEN 4096
++#endif
+ #else
+ #define	MAXPATHLEN MAX_PATH
+ #endif // !WIN32

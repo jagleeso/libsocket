@@ -1,0 +1,3 @@
+version=3
+http://www.linuxhacker.at/socketxx/download \
+http://src.linuxhacker.at/socket\+\+/socket\+\+-([\d\.]*)\.tar\.gz

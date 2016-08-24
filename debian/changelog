@@ -1,0 +1,61 @@
+socket++ (1.12.13-8wily1) wily; urgency=medium
+
+  * Revert the renaming of the library package; not needed for this package.
+
+ -- Matthias Klose <doko@ubuntu.com>  Sat, 26 Sep 2015 08:03:41 +0200
+
+socket++ (1.12.13-8ubuntu1) wily; urgency=medium
+
+  * Rename library packages for g++5 ABI transition.
+
+ -- Iain Lane <iain@orangesquash.org.uk>  Tue, 04 Aug 2015 11:41:48 +0100
+
+socket++ (1.12.13-8) unstable; urgency=low
+
+  * Really make the package multiarch capable. Closes: #768405
+  * Bump Std-Vers to 3.9.6, no changes needed.
+
+ -- Mathieu Malaterre <malat@debian.org>  Fri, 07 Nov 2014 09:48:56 +0100
+
+socket++ (1.12.13-7) unstable; urgency=low
+
+  * Hurd does not support sys_errlist
+
+ -- Mathieu Malaterre <malat@debian.org>  Tue, 31 Dec 2013 11:39:02 +0100
+
+socket++ (1.12.13-6) unstable; urgency=low
+
+  * Final fixes for Hurd
+
+ -- Mathieu Malaterre <malat@debian.org>  Tue, 31 Dec 2013 08:39:12 +0100
+
+socket++ (1.12.13-5) unstable; urgency=low
+
+  * Yet another round of fixes for Hurd/kFreeBSD
+
+ -- Mathieu Malaterre <malat@debian.org>  Mon, 30 Dec 2013 14:15:34 +0100
+
+socket++ (1.12.13-4) unstable; urgency=low
+
+  * Fix remaining issues on Hurd/kFreeBSD
+
+ -- Mathieu Malaterre <malat@debian.org>  Sun, 29 Dec 2013 12:07:03 +0100
+
+socket++ (1.12.13-3) unstable; urgency=low
+
+  * Another round of fixes for Hurd/kFreeBSD
+
+ -- Mathieu Malaterre <malat@debian.org>  Fri, 13 Dec 2013 09:14:27 +0100
+
+socket++ (1.12.13-2) unstable; urgency=low
+
+  * Fix compilation on hurd/kFreeBSD
+  * Bump Std-Vers to 3.9.5, no changes needed
+
+ -- Mathieu Malaterre <malat@debian.org>  Wed, 11 Dec 2013 09:03:55 +0100
+
+socket++ (1.12.13-1) unstable; urgency=low
+
+  * Initial release. (Closes: #278940)
+
+ -- Mathieu Malaterre <malat@debian.org>  Sun, 27 Oct 2013 07:08:17 +0100

@@ -1,0 +1,28 @@
+Description: Fix compilation issue on kFreeBSD and HURD
+Author: Mathieu Malaterre <malat@debian.org>
+Forwarded: no
+
+--- socket++-1.12.13.orig/socket++/ftp.cpp
++++ socket++-1.12.13/socket++/ftp.cpp
+@@ -20,6 +20,10 @@
+ #include <stdio.h> // for sprintf
+ #include <errno.h>
+ 
++#include <sys/socket.h>
++#include <netinet/in.h>
++#include <arpa/inet.h>
++
+ using namespace std;
+ 
+ #if defined (__osf__) && defined (__DECCXX)
+--- socket++-1.12.13.orig/socket++/sockstream.h
++++ socket++-1.12.13/socket++/sockstream.h
+@@ -137,7 +137,7 @@ public:
+     msg_peek	        = MSG_PEEK,
+     msg_dontroute	= MSG_DONTROUTE,
+ 
+-#if !(defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__bsdi__) || defined(__APPLE__))
++#if !(defined(__FreeBSD__) || defined(__GNU__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__bsdi__) || defined(__APPLE__))
+     msg_maxiovlen	= MSG_MAXIOVLEN
+ #endif
+   };

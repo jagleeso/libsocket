@@ -1,0 +1,41 @@
+Source: socket++
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Debian Med Packaging Team <debian-med-packaging@lists.alioth.debian.org>
+Uploaders: Mathieu Malaterre <malat@debian.org>
+Section: libs
+Priority: optional
+Build-Depends: debhelper (>= 9), dh-autoreconf, texinfo, install-info
+Standards-Version: 3.9.6
+Vcs-Browser: http://anonscm.debian.org/viewvc/debian-med/trunk/packages/socket++/trunk/
+Vcs-Svn: svn://anonscm.debian.org/debian-med/trunk/packages/socket++/trunk/
+Homepage: http://www.linuxhacker.at/socketxx
+
+Package: libsocket++1
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: lightweight convenience library to handle low level BSD sockets in C++ - libs
+ Socket++ library defines a family of C++ classes that can be used more
+ effectively than directly calling the underlying low-level system functions.
+ One distinct advantage of the socket++ is that it has the same interface as
+ that of the iostream so that the users can perform type-safe input output.
+ See your local IOStream library documentation for more information on
+ iostreams.
+ .
+ This package contains the libraries needed to run socket++ applications.
+
+Package: libsocket++-dev
+Section: libdevel
+Multi-Arch: same
+Architecture: any
+Depends: ${misc:Depends}, libsocket++1 (= ${binary:Version})
+Description: lightweight convenience library to handle low level BSD sockets in C++ -devel
+ Socket++ library defines a family of C++ classes that can be used more
+ effectively than directly calling the underlying low-level system functions.
+ One distinct advantage of the socket++ is that it has the same interface as
+ that of the iostream so that the users can perform type-safe input output.
+ See your local IOStream library documentation for more information on
+ iostreams.
+ .
+ Headers and shared libraries for socket++.
