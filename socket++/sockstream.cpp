@@ -124,6 +124,46 @@ using namespace std;
 #endif
 #define FD_ZERO(p) (memset ((p), 0, sizeof *(p)))
 
+static void log_time (struct timespec* spec)
+{
+  clock_gettime (CLOCK_REALTIME, spec);
+}
+static struct timespec write_time_total;
+static struct timespec read_time_total;
+void get_network_write_time_total(struct timespec *total)
+{
+  *total = write_time_total;
+}
+void get_network_read_time_total(struct timespec *total)
+{
+  *total = read_time_total;
+}
+
+static struct timespec diff(struct timespec start, struct timespec end)
+{
+  struct timespec temp;
+  if ((end.tv_nsec-start.tv_nsec)<0) {
+    temp.tv_sec = end.tv_sec-start.tv_sec-1;
+    temp.tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+  } else {
+    temp.tv_sec = end.tv_sec-start.tv_sec;
+    temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+  }
+  return temp;
+}
+
+static void add_time (struct timespec * total, struct timespec* start, struct timespec* end)
+{
+  timespec difference = diff(*start, *end);
+  total->tv_sec += difference.tv_sec;
+  if (total->tv_nsec + difference.tv_nsec > 100000000) {
+    total->tv_nsec = total->tv_nsec + difference.tv_nsec - 100000000;
+    total->tv_nsec += 1;
+  } else {
+    total->tv_nsec += difference.tv_nsec;
+  }
+}
+
 const char* sockerr::errstr () const
 {
 #ifndef WIN32
@@ -510,8 +550,12 @@ int sockbuf::read (void* buf, int len)
   if (rep->oob && atmark ())
     throw sockoob ();
 
-  int rval = 0;
-  if ((rval = ::read (rep->sock, (char*) buf, len)) == -1)
+  struct timespec read_start, read_end;
+  log_time(&read_start);
+  int rval = ::read (rep->sock, (char*) buf, len);
+  log_time(&read_end);
+  add_time(&read_time_total, &read_start, &read_end);
+  if (rval == -1)
     throw sockerr (errno, "sockbuf::read", sockname.c_str());
   return rval;
 }
@@ -558,7 +602,11 @@ int sockbuf::write(const void* buf, int len)
   
   int wlen=0;
   while(len>0) {
+    struct timespec write_start, write_end;
+    log_time(&write_start);
     int	wval = ::write (rep->sock, pbuf+wlen, len);
+    log_time(&write_end);
+    add_time(&write_time_total, &write_start, &write_end);
     if (wval == -1) throw wlen;
     len -= wval;
     wlen += wval;

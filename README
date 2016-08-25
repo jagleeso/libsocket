@@ -1,6 +1,14 @@
 This directory contains the source for the C++ socket library
 Version: 12Jan1997 1.11
 
+BUILD INSTRUCTIONS: ( - James )
+$ libtoolize --force
+$ aclocal
+$ autoheader
+$ automake --force-missing --add-missing
+$ autoconf
+$ ./configure --prefix=$(readlink -e ../build)
+
 Manifest:
 --------
 	README.....................this file

@@ -27,6 +27,7 @@
 
 /* Configuration Options */
 #undef ENABLE_DEBUG
+#undef ENABLE_PROFILE_NETWORK
 
 
 @BOTTOM@

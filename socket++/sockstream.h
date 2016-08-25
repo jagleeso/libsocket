@@ -41,6 +41,9 @@
 #  define MSG_MAXIOVLEN	 16
 #endif // __linux__
 
+void get_network_write_time_total(struct timespec *total);
+void get_network_read_time_total(struct timespec *total);
+
 // socket exception classes
 class sockerr {
   int  err;
