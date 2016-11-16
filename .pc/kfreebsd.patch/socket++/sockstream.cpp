@@ -115,10 +115,6 @@ using namespace std;
 
 #endif // !WIN32
 
-#ifndef BUFSIZ
-#  define BUFSIZ 1024
-#endif
-
 #ifdef FD_ZERO
 #  undef FD_ZERO    // bzero causes so much trouble to us
 #endif
@@ -244,12 +240,24 @@ sockbuf::sockbuf (const sockbuf::sockdesc& sd)
 //  : rep (new sockbuf::sockcnt (sd.sock))
 {
   rep = new sockbuf::sockcnt (sd.sock);
-  char_type* gbuf = new char_type [BUFSIZ];
-  char_type* pbuf = new char_type [BUFSIZ];
-  setg (gbuf, gbuf + BUFSIZ, gbuf + BUFSIZ);
-  setp (pbuf, pbuf + BUFSIZ);
-  rep->gend = gbuf + BUFSIZ;
-  rep->pend = pbuf + BUFSIZ;
+  char_type* gbuf = new char_type [SOCKBUF_BUFSIZ];
+  char_type* pbuf = new char_type [SOCKBUF_BUFSIZ];
+  setg (gbuf, gbuf + SOCKBUF_BUFSIZ, gbuf + SOCKBUF_BUFSIZ);
+  setp (pbuf, pbuf + SOCKBUF_BUFSIZ);
+  rep->gend = gbuf + SOCKBUF_BUFSIZ;
+  rep->pend = pbuf + SOCKBUF_BUFSIZ;
+}	   
+
+sockbuf::sockbuf (const sockbuf::sockdesc& sd, size_t bufsiz)
+//  : rep (new sockbuf::sockcnt (sd.sock))
+{
+  rep = new sockbuf::sockcnt (sd.sock);
+  char_type* gbuf = new char_type [bufsiz];
+  char_type* pbuf = new char_type [bufsiz];
+  setg (gbuf, gbuf + bufsiz, gbuf + bufsiz);
+  setp (pbuf, pbuf + bufsiz);
+  rep->gend = gbuf + bufsiz;
+  rep->pend = pbuf + bufsiz;
 }	   
 
 sockbuf::sockbuf (int domain, sockbuf::type st, int proto)
@@ -266,13 +274,36 @@ sockbuf::sockbuf (int domain, sockbuf::type st, int proto)
 
   rep = new sockbuf::sockcnt (soc);
   
-  char_type* gbuf = new char_type [BUFSIZ];
-  char_type* pbuf = new char_type [BUFSIZ];
-  setg (gbuf, gbuf + BUFSIZ, gbuf + BUFSIZ);
-  setp (pbuf, pbuf + BUFSIZ);
-  rep->gend = gbuf + BUFSIZ;
-  rep->pend = pbuf + BUFSIZ;
+  char_type* gbuf = new char_type [SOCKBUF_BUFSIZ];
+  char_type* pbuf = new char_type [SOCKBUF_BUFSIZ];
+  setg (gbuf, gbuf + SOCKBUF_BUFSIZ, gbuf + SOCKBUF_BUFSIZ);
+  setp (pbuf, pbuf + SOCKBUF_BUFSIZ);
+  rep->gend = gbuf + SOCKBUF_BUFSIZ;
+  rep->pend = pbuf + SOCKBUF_BUFSIZ;
 }
+
+sockbuf::sockbuf (int domain, sockbuf::type st, int proto, size_t bufsiz)
+  : rep (0)
+{
+  SOCKET soc = ::socket (domain, st, proto);
+  
+  if (soc == SOCKET_ERROR)
+#ifndef WIN32
+    throw sockerr (errno, "sockbuf::sockbuf");
+#else
+		throw sockerr(WSAGetLastError(), "sockbuf::sockbuf");
+#endif
+
+  rep = new sockbuf::sockcnt (soc);
+  
+  char_type* gbuf = new char_type [bufsiz];
+  char_type* pbuf = new char_type [bufsiz];
+  setg (gbuf, gbuf + bufsiz, gbuf + bufsiz);
+  setp (pbuf, pbuf + bufsiz);
+  rep->gend = gbuf + bufsiz;
+  rep->pend = pbuf + bufsiz;
+}
+
 
 sockbuf::sockbuf (const sockbuf& sb)
 :

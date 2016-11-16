@@ -212,6 +212,8 @@ protected:
 public:
                         sockbuf (const sockdesc& sd);
                         sockbuf (int domain, type, int proto);
+                        sockbuf (const sockdesc& sd, size_t bufsiz);
+                        sockbuf (int domain, type, int proto, size_t bufsiz);
                         sockbuf (const sockbuf&);
 //  sockbuf&		operator = (const sockbuf&);
   virtual 		~sockbuf ();

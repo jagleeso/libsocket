@@ -41,6 +41,10 @@
 #  define MSG_MAXIOVLEN	 16
 #endif // __linux__
 
+#ifndef SOCKBUF_BUFSIZ
+#  define SOCKBUF_BUFSIZ 1024
+#endif
+
 // socket exception classes
 class sockerr {
   int  err;
@@ -209,6 +213,8 @@ protected:
 public:
                         sockbuf (const sockdesc& sd);
                         sockbuf (int domain, type, int proto);
+                        sockbuf (const sockdesc& sd, size_t bufsiz);
+                        sockbuf (int domain, type, int proto, size_t bufsiz);
                         sockbuf (const sockbuf&);
 //  sockbuf&		operator = (const sockbuf&);
   virtual 		~sockbuf ();
